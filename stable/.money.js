@@ -13,7 +13,7 @@
  *  ```
  * @returns {void} null
  **/
-export async function main(
+ export async function main(
 	ns,
 	target = ns.args[0] || 'n00dles',
 	action = ns.args[1] || 'weaken',

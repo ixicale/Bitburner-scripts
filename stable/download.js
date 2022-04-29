@@ -9,11 +9,14 @@
  export async function main(ns) {
     const origin = "https://raw.githubusercontent.com/ixicale/Bitburner-scripts/main/stable"
     const script_to_download = [
-        ".money.js",
         "auto-purchase.js",
-        "daemon-deploy.js",
+        "basic-money.js",
+        "custom-status.js",
         "daemon.js",
-        "utils.js",
+        "download.js",
+        "nuke.js",
+        "scan-targets.js",
+        "utlls.js",
     ]
     for (const script_name of script_to_download) {
         var script_path = `${origin}/${script_name}`
