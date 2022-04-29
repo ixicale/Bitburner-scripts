@@ -16,7 +16,7 @@
         "download.js",
         "nuke.js",
         "scan-targets.js",
-        "utlls.js",
+        "utils.js",
     ]
     for (const script_name of script_to_download) {
         var script_path = `${origin}/${script_name}`
