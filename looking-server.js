@@ -5,7 +5,7 @@ const CUSTOM_PHRASE = false;
 /**
  * Function to find server target from HOME
  * @param {NS} ns The Netscript package
- * @param {string} server hostname
+ * @param {string} target hostname
  * @example ```js
  * 	multiscan(ns, "n00dles");
  * 	multiscan(ns, "home");
@@ -26,6 +26,8 @@ export function looking_for_server(ns, target = '') {
 		}
 	}
 	scanning(ns, HOME);
+	// returns empty if target is not found
+	if (!server_list.includes(target)) return [];
 
 	// make object like {parent:child}
 	var node = stack.reduce((acc, node) => {
@@ -44,13 +46,25 @@ export function looking_for_server(ns, target = '') {
 	return path.reverse();
 }
 
-/** @param {NS} ns **/
-export async function main(ns, target = ns.args[0] || 'n00dles') {
+/**
+ * @param {NS} ns
+ * @param {string} target, server hostname
+ * @param {number} custom_text, default 0
+ * @example ```ps
+ * 	> run looking-server.js
+ * 	> run looking-server.js "n00dles"
+ * 	> run looking-server.js "n00dles" 0
+ * 	> run looking-server.js "n00dles" 1
+ *  ```
+ * @returns {void} null
+ * */
+export async function main(ns, target = ns.args[0] || 'n00dles', custom_text = ns.args[1] || 0) {
 	ns.disableLog('ALL'); // disable all NS function logs
 	var path = looking_for_server(ns, target);
 	var ident = null;
-	if (CUSTOM_PHRASE) {
-		path = path.map((s) => 'connect ' + s);
+	if (CUSTOM_PHRASE || custom_text) {
+		if (!isNaN(custom_text)) custom_text = 'connect';
+		path = path.map((s) => `${custom_text} ` + s);
 		ident = 2;
 	}
 
