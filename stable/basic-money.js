@@ -1,10 +1,10 @@
-/** 
+/**
  * Script to get money from a server into infinite loop
  * @param {NS} ns The Netscript package
  * @param {string} target server to attack, default `'n00dles'`
- * 
+ *
  * */
- export async function main(ns, target = ns.args[0]) {
+export async function main(ns, target = ns.args[0]) {
 	var sec_thresh = ns.getServerMinSecurityLevel(target) + 5;
 	var money_thresh = ns.getServerMaxMoney(target) * 0.75;
 
@@ -17,5 +17,4 @@
 			await ns.hack(target);
 		}
 	}
-
 }
