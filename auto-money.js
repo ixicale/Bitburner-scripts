@@ -21,7 +21,7 @@ const DEBUG = true; // enables prints and log file's append
 const LOG_FILE = VIRUS + '.logger.txt';
 const EXCLUDE_HOME = true; // exclude home server to deploy tasks
 const DELAY = 50; // sequence delay bewteen tasks
-const TICK = 200; // Accord documentation, is better use between 20-200 as lower tick
+const TICK = 1000; // Accord documentation, is better use between 20-200 as lower tick
 
 /** @param {NS} ns */
 async function logger(ns, log_type = 'info', ...content) {
@@ -170,7 +170,6 @@ export async function main(ns, sort_key = ns.args[0] || 'revenue_yield', asc = n
 			.reduce((a, b) => numOr0(a) + numOr0(b), 0);
 		for (const TARGET of serv_to_deploy) {
 			if (TARGET.max_money < 1) continue; // skips darkweb, own servs, etc
-			if (required_hack_level > ns.getHackingLevel()) continue; // check if can hack
 			target_settings = delay_sequence(TARGET);
 			target_thread_needed = portion_threads(
 				max_threads_required(ns, TARGET),

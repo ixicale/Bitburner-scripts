@@ -62,4 +62,5 @@ export async function main(ns, ram_to_purchase = ns.args[1] || 8) {
 		ram_to_purchase = ram_to_purchase * 2;
 		if (ram_to_purchase > max_ram) break;
 	}
+	ns.tprint('DONE');
 }

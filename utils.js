@@ -85,7 +85,6 @@ export function get_server_details(ns, hostname = HOME) {
 	var max_money = ns.getServerMaxMoney(hostname);
 	var min_security = ns.getServerMinSecurityLevel(hostname);
 	var money_thresh = max_money * 0.75;
-	var ram_available = ram_max - ram_current;
 	var ram_current = ns.getServerUsedRam(hostname);
 	var ram_max = ns.getServerMaxRam(hostname);
 	var required_hack_level = ns.getServerRequiredHackingLevel(hostname);
@@ -97,6 +96,7 @@ export function get_server_details(ns, hostname = HOME) {
 
 	var hack_chance = ns.hackAnalyzeChance(hostname);
 	var revenue_yield = max_money * hack_chance;
+	var ram_available = ram_max - ram_current; 
 
 	var trigger_allocation_action = 'nibble';
 	var trigger_allocation_sequence = [
