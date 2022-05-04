@@ -1,15 +1,15 @@
 /**
- * Script to get monay from a server
+ * Script to gather money from a server
  * @param {NS} ns The Netscript package
  * @param {string} target server to attack, default `'n00dles'`
  * @param {string} action proccees to do, defaults `'weaken'`, options `[ 'weaken' | 'grow' | 'hack' ]`
  * @param {number} delay millis of sleep on threads, defaults `0`
  * @param {number} pid proccess ID, defaults `0`
  * @example ```ps
- * 	> run .money.js "n00dles"
- * 	> run .money.js "n00dles" "hack"
- * 	> run .money.js "n00dles" "grow" 0 
- * 	> run .money.js "n00dles" "weaken" 0 0
+ * 	> run .virus.js "n00dles"
+ * 	> run .virus.js "n00dles" "hack"
+ * 	> run .virus.js "n00dles" "grow" 0
+ * 	> run .virus.js "n00dles" "weaken" 0 0
  *  ```
  * @returns {void} null
  **/

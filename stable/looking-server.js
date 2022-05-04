@@ -1,21 +1,20 @@
 import { HOME, SERV_PREFIX } from './utils.js';
 
-const CUSTOM_PHRASE = false;
-
 /**
  * Function to find server target from HOME
  * @param {NS} ns The Netscript package
  * @param {string} target hostname
  * @example ```js
- * 	multiscan(ns, "n00dles");
- * 	multiscan(ns, "home");
+ * 	looking_for_server(ns, "n00dles");
+ * 	looking_for_server(ns, "home");
  *  ```
  * @returns {string[]} serverList
  **/
 export function looking_for_server(ns, target = '') {
-	let server_list = []; // to validate
+	let server_list = []; // aux to validate
 	let stack = [];
 	var path = []; // result
+	// recursive function to find server
 	function scanning(ns, parent) {
 		for (const child of ns.scan(parent)) {
 			if (!server_list.includes(child) && !child.includes(SERV_PREFIX)) {
@@ -35,6 +34,7 @@ export function looking_for_server(ns, target = '') {
 		return acc;
 	});
 
+	// find path until HOME (target->HOME)
 	var current = target;
 	while (current !== HOME) {
 		path.push(current);
@@ -43,30 +43,25 @@ export function looking_for_server(ns, target = '') {
 		current = parent;
 	}
 
+	// reverse path (HOME->target)
 	return path.reverse();
 }
 
 /**
- * @param {NS} ns
+ * Function to find server from HOME
+ * @param {NS} ns The Netscript package
  * @param {string} target, server hostname
  * @param {number} custom_text, default 0
  * @example ```ps
  * 	> run looking-server.js
  * 	> run looking-server.js "n00dles"
- * 	> run looking-server.js "n00dles" 0
- * 	> run looking-server.js "n00dles" 1
+ * 	> alias whereis="run looking-server.js"
+ * 	> whereis "n00dles"
  *  ```
  * @returns {void} null
  * */
-export async function main(ns, target = ns.args[0] || 'n00dles', custom_text = ns.args[1] || 0) {
+export async function main(ns, target = ns.args[0] || 'n00dles') {
 	ns.disableLog('ALL'); // disable all NS function logs
 	var path = looking_for_server(ns, target);
-	var ident = null;
-	if (CUSTOM_PHRASE || custom_text) {
-		if (!isNaN(custom_text)) custom_text = 'connect';
-		path = path.map((s) => `${custom_text} ` + s);
-		ident = 2;
-	}
-
-	ns.tprint(JSON.stringify(path, null, ident));
+	if (path) ns.tprint(path.map((s) => 'connect ' + s).join('; '));
 }

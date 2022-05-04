@@ -1,9 +1,13 @@
 import { HOME, SERV_PREFIX } from './utils.js';
 
-const VIRUS = '.money.js';
 const DELAY = 10000;
 
-/** @param {NS} ns */
+/**
+ * Function to purchase or upgrade a server
+ * @param {NS} ns The Netscript package
+ * @param {number} ram_to_purchase  The amount of RAM to purchase
+ * @param {number} max_servers The maximum number of servers to purchase
+ */
 async function auto_upgrade_servers(ns, ram_to_purchase, max_servers) {
 	ns.print(' ----------------------------- ');
 	ns.print(`Ram to purchase: ${ram_to_purchase} on ${max_servers} servers`);
@@ -15,17 +19,29 @@ async function auto_upgrade_servers(ns, ram_to_purchase, max_servers) {
 	}
 }
 
+/**
+ * Function to add RAM to a server
+ * @param {NS} ns The Netscript package
+ * @param {string} server The server name to upgrade
+ * @param {number} ram_to_purchase The amount of RAM to purchase
+ */
 function upgrade_server(ns, server, ram_to_purchase) {
 	const current_ram = ns.getServerMaxRam(server);
 	if (current_ram < ram_to_purchase) {
 		ns.print(`WARN Upgrading server ${server} to ${ram_to_purchase} GB'`);
 		// needs to stop scripts before delete
-		if (ns.scriptRunning(VIRUS, server)) ns.scriptKill(VIRUS, server);
+		ns.killall(server);
 		ns.deleteServer(server);
 		ns.purchaseServer(server, ram_to_purchase);
 	}
 }
 
+/**
+ * Function to get new server
+ * @param {NS} ns The Netscript package
+ * @param {string} server The server name to add
+ * @param {number} ram_to_purchase The amount of RAM to purchase
+ */
 function purchase_server(ns, server, ram_to_purchase) {
 	ns.print(`INFO Purchasing server ${server} at ${ram_to_purchase} GB'`);
 	ns.purchaseServer(server, ram_to_purchase);
@@ -46,8 +62,8 @@ async function wait_for_money(ns, ram_to_purchase) {
  * @param {NS} ns The Netscript package
  * @param {string} target hostname to attack
  * @example ```ps
- * 	> run auto-purchase-servers.js
- * 	> run auto-purchase-servers.js 8
+ * 	> run ap-servers.js
+ * 	> run ap-servers.js 8
  *  ```
  * @returns {void} null
  **/
