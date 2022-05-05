@@ -238,7 +238,8 @@ export async function main(ns, sort_key = ns.args[0] || 'revenue_yield', asc = n
 			.reduce((a, b) => numOr0(a) + numOr0(b), 0);
 
 		for (const TARGET of serv_to_deploy) {
-			if (TARGET.max_money < 1) continue; // skips darkweb, own servs, etc
+			if (TARGET.max_money < 1) continue; // skips own servs, etc
+			if (TARGET.required_hack_level > ns.getHackingLevel()) continue; // skips servers with higher required hack level
 			// calculate sequence of viruss to do
 			target_settings = delay_sequence(TARGET);
 			// calculate max threads needed to deploy
