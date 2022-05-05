@@ -33,7 +33,7 @@ export async function main(ns) {
 	const script = 'i-robot.js'
 	if (ns.fileExists(script, HOME)) {
 		let retry = 0
-		while (ns.exec(script, HOME, retry) === 0) ++retry;
+		while (ns.exec(script, HOME, 1, retry) === 0) ++retry;
 		ns.tprint(`Running ${script} (tried ${retry} times)`);
 	}
 	for (const script_name of list_of_scripts) {
