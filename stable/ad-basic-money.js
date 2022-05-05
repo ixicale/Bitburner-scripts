@@ -18,6 +18,7 @@ export async function main(ns) {
 			ns.scriptKill(VIRUS, HOME);
 			for (const hostname of server_to_attemps) {
 				if (ns.getServerMaxMoney(hostname) < 1) continue; // no money, skips
+				if (ns.getServerRequiredHackingLevel(hostname) > ns.getHackingLevel()) continue; // skips servers with higher required hack level
 
 				var ram_current = ns.getServerUsedRam(HOME);
 				var ram_max = ns.getServerMaxRam(HOME);
