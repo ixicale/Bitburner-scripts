@@ -44,7 +44,7 @@ RAM    | SOURCE
 const VIRUS = '.virus.js';
 const EXCLUDE_HOME = true; // exclude home server to deploy viruss
 const DELAY = 50; // sequence delay bewteen viruss
-const TICK = 1000; // Accord documentation, is better use between 20-200 as lower tick
+const TICK = 200; // Accord documentation, is better use between 20-200 as lower tick
 
 /**
  * Function to print message
@@ -228,9 +228,9 @@ export async function main(ns, sort_key = ns.args[0] || 'revenue_yield', asc = n
 		await ns.sleep(TICK);
 		// servers to be targets, sorted as param 'sort_key'
 		serv_to_deploy = await servers_to_use(ns, sort_key, asc);
-		// servers to do viruss, sorted DESC by ram_available. Skip servers with less than 2 thread available
+		// servers to deploy virus, sorted DESC by ram_available. Skip servers without threads available
 		serv_sorted_by_ram = serv_to_deploy
-			.filter(({ ram_available }) => numOr0(Math.floor(ram_available / VIRUS_RAM)) > 1)
+			.filter(({ ram_available }) => numOr0(Math.floor(ram_available / VIRUS_RAM)))
 			.sort((a, b) => (a.ram_available > b.ram_available ? -1 : 1));
 		// sum max threads of servers to deploy
 		available_threads = serv_sorted_by_ram
